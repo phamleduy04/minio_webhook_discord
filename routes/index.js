@@ -9,7 +9,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.post('/', (req, res) => {
-  if (webHookURL) res.status(400).send('Webhook URL not set');
+  if (!webHookURL) return res.status(400).send('Webhook URL not set');
   const { body } = req;
   const fileData = body.Records[0];
   const { eventSource, eventTime, eventName, s3 } = fileData;
@@ -25,11 +25,14 @@ router.post('/', (req, res) => {
       }
     ]
   };
+
   request(webHookURL, {
     method: 'POST',
+    headers: {
+      "content-type": "application/json",
+    },
     body: JSON.stringify(requestBody),
   });
-
   res.status(200);
 });
 
