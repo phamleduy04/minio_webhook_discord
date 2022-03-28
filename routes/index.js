@@ -1,4 +1,5 @@
 const router = require('express').Router();
+require('dotenv').config();
 const webHookURL = process.env.WEBHOOK_URL;
 const { request } = require('undici');
 
