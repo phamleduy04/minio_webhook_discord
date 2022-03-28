@@ -14,20 +14,22 @@ router.post('/', (req, res) => {
   const fileData = body.Records[0];
   const { eventSource, eventTime, eventName, s3 } = fileData;
   const { key, size } = s3.object;
+  const requestBody = {
+    "content": null,
+    "embeds": [
+      {
+        "title": eventName,
+        "description": `${key} (${formatBytes(size)}) uploaded to ${eventSource}`,
+        "color": 5814783,
+        "timestamp": eventTime
+      }
+    ]
+  };
   request(webHookURL, {
     method: 'POST',
-    body: {
-      "content": null,
-      "embeds": [
-        {
-          "title": eventName,
-          "description": `${key} (${formatBytes(size)}) uploaded to ${eventSource}`,
-          "color": 5814783,
-          "timestamp": eventTime
-        }
-      ]
-    }
+    body: JSON.stringify(requestBody),
   });
+
   res.status(200);
 });
 
