@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const webHookURL = process.env.WEBHOOK_URL;
 const { request } = require('undici');
-const moment = require('moment-timezone');
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
