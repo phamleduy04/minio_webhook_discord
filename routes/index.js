@@ -11,8 +11,8 @@ router.post('/', (req, res) => {
   if (webHookURL) res.status(400).send('Webhook URL not set');
   const { body } = req;
   const fileData = body.Records[0];
-  const { eventSource, eventTime, eventName } = fileData;
-  const { key, size } = fileData.object;
+  const { eventSource, eventTime, eventName, s3 } = fileData;
+  const { key, size } = s3.object;
   request(webHookURL, {
     method: 'POST',
     body: {
